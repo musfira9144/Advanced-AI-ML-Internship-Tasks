@@ -22,3 +22,12 @@ Interactive Streamlit web application for real-time predictions.
 - Hugging Face Transformers
 - Streamlit
 - Scikit-learn
+## Model Weights
+
+Due to GitHub file size limitations, the trained BERT model is hosted on Google Drive.
+
+🔗 Download link:
+https://drive.google.com/drive/folders/1m_LtfZ4To9PEeW9y2SzuPJUVM4jkBWq9
+
+After downloading, place the `bert-news-classifier` folder in the same directory as `app.py` before running the Streamlit app.
+
