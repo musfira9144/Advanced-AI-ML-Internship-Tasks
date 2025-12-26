@@ -25,7 +25,7 @@ os.environ["GROQ_API_KEY"] = st.secrets.get("GROQ_API_KEY", "")
 # -----------------------------
 @st.cache_resource
 def load_rag_pipeline():
-    loader = TextLoader("data/knowledge.txt")
+    loader = TextLoader("Task-3-Context-Aware-Chatbot-RAG/data/knowledge.txt")
     documents = loader.load()
 
     splitter = RecursiveCharacterTextSplitter(
@@ -78,3 +78,4 @@ if user_input:
 
 for sender, message in st.session_state.messages:
     st.markdown(f"**{sender}:** {message}")
+
