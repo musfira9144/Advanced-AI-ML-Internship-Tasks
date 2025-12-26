@@ -1,0 +1,17 @@
+LangChain is a framework designed to help developers build applications powered by large language models.
+It provides tools for prompt management, memory, chains, and integrations with external data sources.
+
+Retrieval-Augmented Generation, also known as RAG, is a technique that enhances language models by retrieving relevant documents from an external knowledge base before generating a response.
+RAG helps reduce hallucinations and improves factual accuracy.
+
+FAISS is a vector database library developed by Meta for efficient similarity search.
+It is commonly used to store and retrieve document embeddings in machine learning applications.
+
+Embeddings are numerical representations of text that capture semantic meaning.
+They allow systems to compare text based on meaning rather than exact words.
+
+A context-aware chatbot is capable of remembering previous user interactions and using that history to generate more relevant responses.
+This is achieved using conversational memory.
+
+Streamlit is a Python framework used to build interactive web applications for machine learning models.
+It allows rapid deployment of AI applications with minimal frontend code.
