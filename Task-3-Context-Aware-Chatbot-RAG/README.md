@@ -68,7 +68,7 @@ Task-3-Context-Aware-Chatbot-RAG/
 The chatbot is deployed using Streamlit.
 
 ## 🔗 Live App:
-(Add your Streamlit Cloud link here once deployed)
+https://contexbasedchatbot.streamlit.app/
 
 ---
 
