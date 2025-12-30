@@ -36,6 +36,7 @@ This project is deployed on Streamlit Cloud.
 
 ## 🚀 Live Demo
 
-[![Open in Streamlit](https://bertnewsclassifier.streamlit.app/)
+https://bertnewsclassifier.streamlit.app/
+
 
 
