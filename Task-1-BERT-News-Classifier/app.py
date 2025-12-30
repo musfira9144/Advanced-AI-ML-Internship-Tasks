@@ -1,78 +1,75 @@
-import streamlit as st
+import os
 import torch
+import streamlit as st
+import gdown
 from transformers import BertTokenizer, BertForSequenceClassification
 
 # --------------------------------------------------
-# Page Configuration
+# Page config
 # --------------------------------------------------
-st.set_page_config(
-    page_title="BERT News Classifier",
-    page_icon="📰",
-    layout="centered"
-)
+st.set_page_config(page_title="BERT News Classifier", page_icon="📰")
 
 st.title("📰 News Topic Classification using BERT")
-st.write("Enter a news headline and the model will predict its category.")
 
 # --------------------------------------------------
-# Load Model & Tokenizer (Cached for performance)
+# Model download settings
 # --------------------------------------------------
+MODEL_DIR = "bert-news-classifier"
+
+# 👇 REPLACE with your actual Google Drive FOLDER ID
+GDRIVE_FOLDER_ID = "1m_LtfZ4To9PEeW9y2SzuPJUVM4jkBWq9"
+
 @st.cache_resource
 def load_model():
     """
-    Loads the fine-tuned BERT model and tokenizer
-    from the local directory.
+    Downloads model from Google Drive (if not present)
+    and loads tokenizer + model.
     """
-    tokenizer = BertTokenizer.from_pretrained("bert-news-classifier")
-    model = BertForSequenceClassification.from_pretrained("bert-news-classifier")
-    model.eval()  # Set model to evaluation mode
+
+    # Download model if not already present
+    if not os.path.exists(MODEL_DIR):
+        st.info("Downloading model... Please wait ⏳")
+        gdown.download_folder(
+            id=GDRIVE_FOLDER_ID,
+            output=MODEL_DIR,
+            quiet=False
+        )
+
+    tokenizer = BertTokenizer.from_pretrained(MODEL_DIR)
+    model = BertForSequenceClassification.from_pretrained(MODEL_DIR)
+    model.eval()
+
     return tokenizer, model
 
 tokenizer, model = load_model()
 
 # --------------------------------------------------
-# Label Mapping
+# Labels
 # --------------------------------------------------
 LABELS = ["World", "Sports", "Business", "Sci/Tech"]
 
 # --------------------------------------------------
-# User Input
+# User input
 # --------------------------------------------------
-user_text = st.text_area(
-    "📝 Enter News Headline:",
-    placeholder="Apple unveils new AI-powered iPhone features"
+text = st.text_area(
+    "Enter a news headline:",
+    placeholder="Apple shares rise after strong quarterly earnings"
 )
 
-# --------------------------------------------------
-# Prediction Button
-# --------------------------------------------------
-if st.button("🔍 Classify News"):
-    if user_text.strip() == "":
-        st.warning("Please enter a news headline.")
+if st.button("Classify"):
+    if text.strip() == "":
+        st.warning("Please enter some text.")
     else:
-        # Tokenize input text
         inputs = tokenizer(
-            user_text,
+            text,
             return_tensors="pt",
             truncation=True,
             padding=True,
             max_length=128
         )
 
-        # Disable gradient calculation for inference
         with torch.no_grad():
             outputs = model(**inputs)
 
-        # Get predicted class index
-        predicted_class = torch.argmax(outputs.logits, dim=1).item()
-
-        # Display result
-        st.success(
-            f"🧠 **Predicted Category:** {LABELS[predicted_class]}"
-        )
-
-# --------------------------------------------------
-# Footer
-# --------------------------------------------------
-st.markdown("---")
-st.caption("Developed as part of AI/ML Engineering Internship | DevelopersHub")
+        pred = torch.argmax(outputs.logits, dim=1).item()
+        st.success(f"🧠 Predicted Category: **{LABELS[pred]}**")
